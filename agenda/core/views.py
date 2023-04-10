@@ -1,8 +1,13 @@
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from core.models import Evento
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate,login,logout
 from django.contrib import messages
+from django.shortcuts import render, redirect
+from django.contrib.auth import login
+from django.contrib.auth.models import User
+
 
 # Create your views here.
 
@@ -27,6 +32,26 @@ def submit_login(request):
             return redirect('/')
         else:
             messages.error(request,"Usuário ou Senha Inválida.")
+    return redirect('/')
+
+
+def create_user(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        email = request.POST['email']
+        password = request.POST['password']
+        User.objects.create_user(username=username, email=email, password=password)
+        return HttpResponseRedirect('/success/')
+
+    return render(request, 'create_user.html')
+
+def submit_user(request):
+    if request.POST:
+        username = request.POST.get('username')
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        user = User.objects.create_user(username=username,email=email,password=password)
+        user.save()
     return redirect('/')
 
 

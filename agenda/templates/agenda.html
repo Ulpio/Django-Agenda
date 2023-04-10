@@ -1,6 +1,9 @@
 {% extends "model-page.html" %}
 
 {% block content  %}
+    <!--mostrar usuário logado-->
+    <h1>Olá, {{ user.username }}!</h1>
+
     <h2>Agendamentos: </h2>
     <a href="evento/">
     <button type="button">Criar novo Evento</button>
